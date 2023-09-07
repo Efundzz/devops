@@ -15,11 +15,6 @@ pipelines:
           caches:
             - maven
           script:
-            - pwd
-            - ls
-            - cd devops
-            - pwd
-            - ls
             - mvn -B verify --file pom.xml
           after-script:
               # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
