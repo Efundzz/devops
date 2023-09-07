@@ -6,10 +6,9 @@
 # Prerequisites: pom.xml and appropriate project structure should exist in the repository.
 
 image: maven:3.6.3
-
 pipelines:
-  default:
-    - parallel:
+  branches:
+    feature/*:
       - step:
           name: Build and Test
           caches:
@@ -25,4 +24,23 @@ pipelines:
             # Run a security scan for sensitive data.
             # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
             - pipe: atlassian/git-secrets-scan:0.5.1
-            
+  pull-requests:
+        '**':
+          - step:
+              name: Merge to Master
+              script:
+                - echo "Merging changes from branch $BITBUCKET_SOURCE_BRANCH to master"
+                - git checkout master
+                - git merge --no-ff $BITBUCKET_SOURCE_BRANCH
+                - git push origin master
+
+        master:
+          - step:
+              name: Build and Test (Master Branch)
+              caches:
+                - maven
+              script:
+                - mvn clean install --file pom.xml
+              after-script:
+                # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
+                - pipe: atlassian/checkstyle-report:0.3.0
