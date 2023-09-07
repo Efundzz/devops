@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApplicationsController {
     @GetMapping("/sample")
     public ResponseEntity<String> getSampleResponse() {
-        String response = "Hello, this sample response from Efundz!";
+        String response = "Hello, this sample response from Efundz!comment";
         return ResponseEntity.ok(response);
     }
 }
