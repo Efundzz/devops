@@ -33,6 +33,7 @@ pipelines:
                 - git checkout master
                 - git merge --no-ff $BITBUCKET_SOURCE_BRANCH
                 - git push origin master
+                - pipe: atlassian/pipelines-merge-action:0.3.0
 
         master:
          - step:
