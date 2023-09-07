@@ -33,14 +33,14 @@ pipelines:
                 - git checkout master
                 - git merge --no-ff $BITBUCKET_SOURCE_BRANCH
                 - git push origin master
-                - pipe: atlassian/pipelines-merge-action:0.3.0
 
-        master:
+        default:
          - step:
             name: Build and Test (Master Branch)
             caches:
                - maven
             script:
+              - echo "Building the master branch"
               - mvn clean install --file pom.xml
             after-script:
                 # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
