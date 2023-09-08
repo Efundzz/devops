@@ -34,7 +34,7 @@ pipelines:
                 - git merge --no-ff $BITBUCKET_SOURCE_BRANCH
                 - git push origin master
 
-        default:
+        master:
          - step:
             name: Build and Test (Master Branch)
             caches:
@@ -45,3 +45,4 @@ pipelines:
             after-script:
                 # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
                 - pipe: atlassian/checkstyle-report:0.3.0
+
