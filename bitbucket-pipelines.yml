@@ -54,7 +54,7 @@ pipelines:
               - "*.tar"
         - step:
             name: Deploy to development
-            deployment: Development
+            deployment: development
             script:
               - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
               - IMAGE_NAME=$BITBUCKET_REPO_SLUG
