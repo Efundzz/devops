@@ -43,9 +43,11 @@ pipelines:
         - step:
             name: Build and Test
             script:
-              - IMAGE_NAME=$BITBUCKET_REPO_SLUG
+              - IMAGE_NAME=efundzdemo
               - docker build . --file Dockerfile --tag ${IMAGE_NAME}
+              - echo "Docker image $IMAGE_NAME built successfully."
               - docker save ${IMAGE_NAME} --output "${IMAGE_NAME}.tar"
+              - echo "Docker image $IMAGE_NAME saved as ${IMAGE_NAME}.tar"
             services:
               - docker
             caches:
@@ -56,7 +58,7 @@ pipelines:
             name: Push image to dockerhub
             script:
               - echo "${DOCKERHUB_PASSWORD}" | docker login --username "${DOCKERHUB_USERNAME}" --password-stdin && \
-                IMAGE_NAME="$BITBUCKET_REPO_SLUG" && \
+                IMAGE_NAME="efundzdemo" && \
                 VERSION="dev-0.1.${BITBUCKET_BUILD_NUMBER}" && \
                 IMAGE="${DOCKERHUB_NAMESPACE}/${IMAGE_NAME}:${VERSION}" && \
                 docker load --input "${IMAGE_NAME}.tar" && \
