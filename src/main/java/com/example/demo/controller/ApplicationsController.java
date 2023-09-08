@@ -1,16 +1,16 @@
 package com.example.demo.controller;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
-@RequestMapping(path = "api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping("/api")
 public class ApplicationsController {
     @GetMapping("/sample")
     public ResponseEntity<String> getSampleResponse() {
-        String response = "Hello, this sample response from Efundz!demo-test";
+        String response = "Hello, this sample response from Efundz!";
         return ResponseEntity.ok(response);
     }
 }

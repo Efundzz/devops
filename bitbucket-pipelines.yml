@@ -38,11 +38,30 @@ pipelines:
                 # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
                 - pipe: atlassian/checkstyle-report:0.3.0
 
-         - step:
-            name: Build and Push Docker Image
+
+    master:
+        - step:
+            name: Build and Test
+            script:
+              - IMAGE_NAME=$BITBUCKET_REPO_SLUG
+              - docker build . --file Dockerfile --tag ${IMAGE_NAME}
+              - docker save ${IMAGE_NAME} --output "${IMAGE_NAME}.tar"
             services:
               - docker
+            caches:
+              - docker
+            artifacts:
+              - "*.tar"
+        - step:
+            name: Deploy to development
+            deployment: Development
             script:
-              - docker build -t account-name/my-devops-app:${BITBUCKET_COMMIT} .
-              - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME"
-              - docker push account-name/my-java-app:${BITBUCKET_COMMIT}
+              - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+              - IMAGE_NAME=$BITBUCKET_REPO_SLUG
+              - docker load --input "${IMAGE_NAME}.tar"
+              - VERSION="dev-0.1.${BITBUCKET_BUILD_NUMBER}"
+              - IMAGE=${DOCKERHUB_NAMESPACE}/${IMAGE_NAME}
+              - docker tag "${IMAGE_NAME}" "${IMAGE}:${VERSION}"
+              - docker push "${IMAGE}:${VERSION}"
+            services:
+              - docker
