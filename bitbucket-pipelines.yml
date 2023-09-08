@@ -38,3 +38,11 @@ pipelines:
                 # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
                 - pipe: atlassian/checkstyle-report:0.3.0
 
+         - step:
+            name: Build and Push Docker Image
+            services:
+              - docker
+            script:
+              - docker build -t account-name/my-devops-app:${BITBUCKET_COMMIT} .
+              - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME"
+              - docker push account-name/my-java-app:${BITBUCKET_COMMIT}
