@@ -57,12 +57,12 @@ pipelines:
         - step:
             name: Push image to dockerhub
             script:
-              - echo "${DOCKERHUB_PASSWORD}" | docker login --username "${DOCKERHUB_USERNAME}" --password-stdin && \
-                IMAGE_NAME="efundzdemo" && \
-                VERSION="dev-0.1.${BITBUCKET_BUILD_NUMBER}" && \
-                IMAGE="${DOCKERHUB_NAMESPACE}/${IMAGE_NAME}:${VERSION}" && \
-                docker load --input "${IMAGE_NAME}.tar" && \
-                docker tag "${IMAGE_NAME}" "${IMAGE}" && \
-                docker push "${IMAGE}"
+              - echo "${DOCKERHUB_PASSWORD}" | docker login --username "${DOCKERHUB_USERNAME}" --password-stdin
+              - IMAGE_NAME="efundzdemo"
+              - VERSION="dev-0.1.${BITBUCKET_BUILD_NUMBER}"
+              - IMAGE="${DOCKERHUB_NAMESPACE}/${IMAGE_NAME}:${VERSION}"
+              - docker load --input "${IMAGE_NAME}.tar"
+              - docker tag "${IMAGE_NAME}" "${IMAGE}"
+              - docker push "${IMAGE}"
             services:
                 - docker
