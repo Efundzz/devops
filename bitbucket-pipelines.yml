@@ -89,16 +89,16 @@ pipelines:
               - docker push "${IMAGE}"
             services:
                 - docker
-        - step:
-            name: Push image to ECR
-            script:
-              - IMAGE_NAME="efundzdemo"
-              - VERSION="dev-0.1.${BITBUCKET_BUILD_NUMBER}"
-              - ECR_REPOSITORY="public.ecr.aws/j3z0v8x9/efundzz_demo" # Replace with your ECR repository URL
-              - IMAGE="${ECR_REPOSITORY}:${VERSION}"
-              - docker load --input "${IMAGE_NAME}.tar"
-              - docker tag "${IMAGE_NAME}" "${IMAGE}"
-              - $(aws ecr get-login --no-include-email)
-              - docker push "${IMAGE}"
-            services:
-              - docker
+#        - step:
+#            name: Push image to ECR
+#            script:
+#              - IMAGE_NAME="efundzdemo"
+#              - VERSION="dev-0.1.${BITBUCKET_BUILD_NUMBER}"
+#              - ECR_REPOSITORY="public.ecr.aws/j3z0v8x9/efundzz_demo" # Replace with your ECR repository URL
+#              - IMAGE="${ECR_REPOSITORY}:${VERSION}"
+#              - docker load --input "${IMAGE_NAME}.tar"
+#              - docker tag "${IMAGE_NAME}" "${IMAGE}"
+#              - $(aws ecr get-login --no-include-email)
+#              - docker push "${IMAGE}"
+#            services:
+#              - docker
