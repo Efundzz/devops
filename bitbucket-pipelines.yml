@@ -26,7 +26,7 @@ pipelines:
             - pipe: atlassian/git-secrets-scan:0.5.1
 
   custom:
-    merge-to-master:
+     merge-to-master:
          - step:
             name: Build and Test (Master Branch)
             caches:
@@ -51,71 +51,30 @@ pipelines:
 #             caches:
 #               - docker
 
-         - step:
-             name: Build and Test
-             script:
-               - IMAGE_NAME=efundzdemo
-               - docker build . --file Dockerfile --tag ${IMAGE_NAME}
-               - echo "Docker image $IMAGE_NAME built successfully."
-               - docker save ${IMAGE_NAME} --output "${IMAGE_NAME}.tar"
-               - echo "Docker image $IMAGE_NAME saved as ${IMAGE_NAME}.tar"
-             services:
-               - docker
-             caches:
-               - docker
-             artifacts:
-               - "*.tar"
-
-         - step:
-             name: Push image to ECR
-             script:
-               - IMAGE_NAME="efundzdemo"
-               - VERSION="dev-0.1.${BITBUCKET_BUILD_NUMBER}"
-               - ECR_REPOSITORY="public.ecr.aws/j3z0v8x9/efundzz_demo" # Replace with your ECR repository URL
-               - IMAGE="${ECR_REPOSITORY}:${VERSION}"
-               - docker load --input "${IMAGE_NAME}.tar"
-               - docker tag "${IMAGE_NAME}" "${IMAGE}"
-               - $(aws ecr get-login --no-include-email)
-               - docker push "${IMAGE}"
-             services:
-               - docker
-#    docker:
-#        - step:
-#            name: Build and Test
-#            script:
-#              - IMAGE_NAME=efundzdemo
-#              - docker build . --file Dockerfile --tag ${IMAGE_NAME}
-#              - echo "Docker image $IMAGE_NAME built successfully."
-#              - docker save ${IMAGE_NAME} --output "${IMAGE_NAME}.tar"
-#              - echo "Docker image $IMAGE_NAME saved as ${IMAGE_NAME}.tar"
-#            services:
-#              - docker
-#            caches:
-#              - docker
-#            artifacts:
-#              - "*.tar"
-#        - step:
-#            name: Push image to dockerhub
-#            script:
-#              - echo "${DOCKERHUB_PASSWORD}" | docker login --username "${DOCKERHUB_USERNAME}" --password-stdin
-#              - IMAGE_NAME="efundzdemo"
-#              - VERSION="dev-0.1.${BITBUCKET_BUILD_NUMBER}"
-#              - IMAGE="${DOCKERHUB_NAMESPACE}/${IMAGE_NAME}:${VERSION}"
-#              - docker load --input "${IMAGE_NAME}.tar"
-#              - docker tag "${IMAGE_NAME}" "${IMAGE}"
-#              - docker push "${IMAGE}"
-#            services:
-#                - docker
-#        - step:
-#            name: Push image to ECR
-#            script:
-#              - IMAGE_NAME="efundzdemo"
-#              - VERSION="dev-0.1.${BITBUCKET_BUILD_NUMBER}"
-#              - ECR_REPOSITORY="<your-ecr-repository>" # Replace with your ECR repository URL
-#              - IMAGE="${ECR_REPOSITORY}:${VERSION}"
-#              - docker load --input "${IMAGE_NAME}.tar"
-#              - docker tag "${IMAGE_NAME}" "${IMAGE}"
-#              - $(aws ecr get-login --no-include-email)
-#              - docker push "${IMAGE}"
-#            services:
-#              - docker
+     docker:
+        - step:
+            name: Build and Test
+            script:
+              - IMAGE_NAME=efundzdemo
+              - docker build . --file Dockerfile --tag ${IMAGE_NAME}
+              - echo "Docker image $IMAGE_NAME built successfully."
+              - docker save ${IMAGE_NAME} --output "${IMAGE_NAME}.tar"
+              - echo "Docker image $IMAGE_NAME saved as ${IMAGE_NAME}.tar"
+            services:
+              - docker
+            caches:
+              - docker
+            artifacts:
+              - "*.tar"
+        - step:
+            name: Push image to dockerhub
+            script:
+              - echo "${DOCKERHUB_PASSWORD}" | docker login --username "${DOCKERHUB_USERNAME}" --password-stdin
+              - IMAGE_NAME="efundzdemo"
+              - VERSION="dev-0.1.${BITBUCKET_BUILD_NUMBER}"
+              - IMAGE="${DOCKERHUB_NAMESPACE}/${IMAGE_NAME}:${VERSION}"
+              - docker load --input "${IMAGE_NAME}.tar"
+              - docker tag "${IMAGE_NAME}" "${IMAGE}"
+              - docker push "${IMAGE}"
+            services:
+                - docker
