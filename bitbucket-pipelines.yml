@@ -43,7 +43,7 @@ pipelines:
       - step:
           name: Authenticate with ECR
           script:
-            - pipe: atlassian/aws-ecr-login:1.0.2
+            - pipe: atlassian/aws-ecr-login:2.0.0
               variables:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY # Optional if already defined in the context.
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION # Replace with your desired AWS region.
