@@ -46,8 +46,8 @@ pipelines:
             - pipe: atlassian/aws-ecr-login:1.0.2
               variables:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY # Optional if already defined in the context.
-                AWS_DEFAULT_REGION: 'eu-west-1' # Replace with your desired AWS region.
-                AWS_ACCOUNT_ID: '661047003403' # Replace with your AWS account ID.
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION # Replace with your desired AWS region.
+                AWS_ACCOUNT_ID: $AWS_ACCOUNT_ID # Replace with your AWS account ID.
             - echo "Authenticated with ECR"
           caches:
             - docker
