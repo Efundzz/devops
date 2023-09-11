@@ -10,6 +10,10 @@ pipelines:
   branches:
     feature/*:
       - step:
+          name: Clear Caches
+          script:
+            - pipe: atlassian/pipelines-clean-cache:1.0.0
+      - step:
           name: Build and Test
           caches:
             - maven
