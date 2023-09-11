@@ -38,13 +38,14 @@ pipelines:
                 # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
                 - pipe: atlassian/checkstyle-report:0.3.0
 
+
     docker:
       - step:
           name: Authenticate with ECR
           script:
             - pipe: atlassian/aws-ecr-login:1.0.2
               variables:
-                AWS_SECRET_ACCESS_KEY: 'XFmkJzUlXxbzGN/tJUyikoEZJMgaSkk2p9WmQX2Z' # Optional if already defined in the context.
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY # Optional if already defined in the context.
                 AWS_DEFAULT_REGION: 'eu-west-1' # Replace with your desired AWS region.
                 AWS_ACCOUNT_ID: '661047003403' # Replace with your AWS account ID.
             - echo "Authenticated with ECR"
