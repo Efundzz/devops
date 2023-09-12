@@ -67,7 +67,7 @@ pipelines:
 #                - docker
         - step:
             name: Push image to ECR
-            deployment: development
+#           deployment: development
             image: atlassian/pipelines-awscli
             script:
                 - IMAGE_NAME="efundzdemo"
