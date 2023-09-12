@@ -86,6 +86,8 @@ pipelines:
                 - echo $AWS_ACCESS_KEY_ID
                 - echo $AWS_SECRET_ACCESS_KEY
                 - echo $AWS_DEFAULT_REGION
+                - echo AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID"
+                - echo AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY"  
 #                - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
                 - eval $(aws ecr get-login --region "eu-west-1" --no-include-email)
                 - echo "Logged in to AWS ECR"
