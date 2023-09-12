@@ -68,7 +68,7 @@ pipelines:
         - step:
             name: Push image to ECR
             script:
-              - IMAGE_NAME="efundzdemo"
+                - IMAGE_NAME="efundzdemo"
                 - VERSION="dev-0.1.${BITBUCKET_BUILD_NUMBER}"
                 - ECR_REPOSITORY="247423452789.dkr.ecr.eu-west-1.amazonaws.com/efundzz_test" # Replace with your ECR repository URL
                 - IMAGE="${ECR_REPOSITORY}:${VERSION}"
