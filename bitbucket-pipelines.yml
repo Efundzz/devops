@@ -87,7 +87,7 @@ pipelines:
                 - echo $AWS_SECRET_ACCESS_KEY
                 - echo $AWS_DEFAULT_REGION
 #                - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
-                - eval $(aws ecr get-login --region "eu-west-01" --no-include-email)
+                - eval $(aws ecr get-login --region "eu-west-1" --no-include-email)
                 - echo "Logged in to AWS ECR"
                 - docker load < "${IMAGE_NAME}.tar"
                 - docker tag "${IMAGE_NAME}" "${IMAGE}"
