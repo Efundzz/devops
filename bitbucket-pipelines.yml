@@ -56,14 +56,16 @@ pipelines:
         - step:
             name: Push image to ECR
             script:
-              - docker build -t my-docker-image:my-tag .
+              - TAG_NAME=efundzdemo
+              - docker build -t my-docker-image:${TAG_NAME} .
               - pipe: atlassian/aws-ecr-push-image:2.2.0
                 variables:
                   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
                   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
                   AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
-                  IMAGE_NAME: efundzdemo
-                  TAGS: 'my-tag'
+                  AWS_SESSION_TOKEN: IQoJb3JpZ2luX2VjEE4aCXVzLWVhc3QtMSJHMEUCIAnWhNYvK3zyrQjqnxuFztk3sAD/zAs5OQZVIkiNrOcEAiEAnkk+NQQdQ/nie9MM7s7T/E/eFkct9ycEg6BPMdUOMAcq8QIINxAAGgwyNDc0MjM0NTI3ODkiDALuRS0JTraywtARwyrOAvDoGi/67NYBrq8GnM0aGrr82HDSwLZ7i/m7bJx3OWTX0v1OmEuvjt/gCBi74wbEpYR8bA57Q+frCTLXH0SWCg8AaBpJo5dVivASh5a2tkFmDmkTaAAZLAsHm9x0Pjx2lTf29vJyLm5sMPIFeYua300w5clAusoB6tIdkkrnjLx6x1hc7hiYFGrJMi6xikUi4PMr4SHp0BPyRU/FHBzA9JdOqOzl+tZm/YNyDw1I843QpTmiLPTTG8YEOsYs2Lm1lUnpHbmPbfJyaXzqphiKn4x+Ue6UUAv/+R3SnE8GT+lwzQid8/oTvF6ZlsCZWaSoA0M19r1JYaQNsSNt65ldgS/FX0LY/XRwWCUusZGZtWRfcYjWh393tUrkPCPNIY7VTQs6ghWJrGlubZy9fRSgGsAoFsk/z7NSOVtftgpH4bIA4y0ARQKlo8Il0pZ65Vkwg9iIqAY6pwFqE2FpAd8Ekgk9gys/3YgjqBUC8s98KpFv1VRGh7slwvdHI92VgYCMQrOG4Pc6srRyQ9gS/fa72mt6+8YjbY4kU3TPdr3IhW8tBn65x5t07ysqYCqwcettNKuKVz5a65/fNug84HAz6aJd3KbqxZuFm6V+aRUlSeG92KoMxBxP5c/peACElIWxIkx9M1HJWs6t8Ljf4vXB0YJ6fH4GrqsL/Ej22K8cnw==
+                  IMAGE_NAME: ${TAG_NAME}
+                  TAGS: "${BITBUCKET_BUILD_NUMBER}"
 #        - step:
 #            name: Push image to dockerhub
 #            script:
